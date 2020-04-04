@@ -1,0 +1,83 @@
+All Nodes Distance K in Binary Tree (10 ms, faster than 82.66%)
+--------------------------------------------------xxxxx-----------------------------------------------------------------------------
+We are given a binary tree (with root node root), a target node, and an integer value K.
+
+Return a list of the values of all nodes that have a distance K from the target node.  The answer can be returned in any order.
+
+ 
+
+Example 1:
+
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, K = 2
+
+Output: [7,4,1]
+
+Explanation: 
+The nodes that are a distance 2 from the target node (with value 5)
+have values 7, 4, and 1.
+
+
+
+Note that the inputs "root" and "target" are actually TreeNodes.
+The descriptions of the inputs above are just serializations of these objects.
+
+
+
+------------------------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------------------------------------------
+code:-
+
+class Solution {
+public ArrayListnodeToRootPath2(TreeNode node,int data) /* store node to root path from the root to given node /
+{
+if(node==null)
+{
+return new ArrayList<>();
+}
+if(node.val==data)
+{
+ArrayListlist=new ArrayList<>();
+list.add(node);
+return list;
+}
+ArrayListn2lcpath=nodeToRootPath2(node.left, data);
+if(n2lcpath.size()>0)
+{
+n2lcpath.add(node);
+return n2lcpath;
+}
+ArrayListn2rcpath=nodeToRootPath2(node.right,data);
+if(n2rcpath.size()>0)
+{
+n2rcpath.add(node);
+return n2rcpath;
+}
+return new ArrayList<>();
+}
+public void printkdown(TreeNode tnode,TreeNode blocker,int k)
+{
+if(tnode==null || tnode==blocker || k<0) / blocker is used so that same node doesn't get printed again*/
+{
+return;
+}
+if(k==0)
+{
+result.add(tnode.val);
+}
+printkdown(tnode.left,blocker,k-1);
+printkdown(tnode.right,blocker,k-1);
+
+}
+static ArrayList<Integer> result=new ArrayList<>(); /* Array list to store the result */
+public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+    int data=target.val;
+    ArrayList<TreeNode> path=nodeToRootPath2(root,data);
+    result.clear();
+     printkdown(path.get(0),null,K);
+
+    for(int i=1;i<path.size();i++)
+   {
+    printkdown(path.get(i),path.get(i-1),K-i); /* blocker is the previous elememt*/
+    }
+    return result;
+}
+}
