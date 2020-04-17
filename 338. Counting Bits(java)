@@ -1,0 +1,42 @@
+Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+
+Example 1:
+
+Input: 2
+Output: [0,1,1]
+Example 2:
+
+Input: 5
+Output: [0,1,1,2,1,2]
+
+----------------------------------------------------------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------------------------
+CODE:-
+
+
+We can infer from the digit calculation that for even numbers, 
+the number of 1s is the same as their half, and for odd numbers, the number of 1s is one more than the previous numbers.
+
+class Solution {
+    public int[] countBits(int num) {
+        
+        int[] dp=new int[num+1];
+        if(num==0)
+        {
+            return dp;
+        }
+        dp[1]=1;
+        for(int i=2;i<=num;i++)
+        {
+            if(i%2==0)
+            {
+                dp[i]=dp[i/2];
+            }
+            else
+            {
+                dp[i]=dp[i-1]+1;
+            }
+        }
+        return dp;
+        
+    }
+}
